@@ -1,28 +1,40 @@
 import re
 
 # Given equation and variable to solve for
-equation = "apple = 4e - orange + 5a + 4"
+equation = "-apple = -4e - orange+5a-y+3"
 getting_input = "e"
 
 print("Equation:", equation)
 print("Getting_input:", getting_input)
 
+def spliting_equation(equation):
+    equation = equation.replace(" ", "")  
+    result = []
+    term = ""
+    
+    for char in equation:
+        if char in "+-":  
+            if term:  
+                result.append(term)
+            term = char  
+        else:
+            term += char  
+    if term:
+        result.append(term)
+        
+    return result
 
-def parse_equation(expression):
-    terms = re.findall(r"[+-]?\d*[a-zA-Z]+|[+-]?\d+|[+-]", expression)
-    return terms
 
 def lhsRhs(lhs, rhs, variable):
     left_side = []
     right_side = []
 
-    lhs_terms = parse_equation(lhs)
-    rhs_terms = parse_equation(rhs)
+    lhs_terms = spliting_equation(lhs)
+    rhs_terms = spliting_equation(rhs)
 
     print("LHS terms:", lhs_terms)
     print("RHS terms:", rhs_terms)
 
-  
     for term in lhs_terms:
         term = term.strip()
         if term and is_target_variable(term, variable):
