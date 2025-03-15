@@ -1,8 +1,7 @@
 import re
 
-# Given equation and variable to solve for
-equation = "4y+4-2=x"
-getting_input = "x"
+equation = 'apple = 4e-orange+5a+4'
+getting_input = "e"
 
 print("Equation:", equation)
 print("Getting_input:", getting_input)
@@ -65,7 +64,7 @@ def lhsRhs(lhs, rhs, variable):
     print("1RHS terms:", right_side)
     
     return left_side, right_side
-    
+
 def is_num_without_signs(coefficient_part):
     if not coefficient_part:
         return False
@@ -80,14 +79,28 @@ def is_num_without_signs(coefficient_part):
     return True
 
 def is_target_variable(term, variable):
-    
     if term.endswith(variable):
         coefficient_part = term[:-len(variable)] 
         if coefficient_part == "" or coefficient_part in ["+", "-"] or is_num_without_signs(coefficient_part):
-            
             return True
 
     return False
+
+def left_side_constant(expression):
+    expression = expression.replace(" ", "")
+    total = 0
+    num = ""
+    
+    for i in expression:
+        if i.isdigit() or i in '-+':
+            num += i
+    
+    try:
+        total = eval(num)  
+    except:
+        total = 0  
+
+    return total  
 
 
 if '=' not in equation:
@@ -127,8 +140,24 @@ else:
                 left_side, right_side = lhsRhs(lhs, rhs, getting_input)
                 left_side_str = "".join(left_side)
                 right_side_str = "".join(right_side)  
+                
+                print("Left side str:", left_side_str)
+                print("Right side str:", right_side_str)
 
-                print("Output:", left_side_str, "=", right_side_str)
+                coefficient = left_side_constant(left_side_str)
+                print("Coefficient of variable:", coefficient)
+                dividing = '/'
+                try:
+                    if coefficient and coefficient != 0:
+                        print("2")
+                        print("Output:", getting_input, "=", (right_side_str),dividing, int(coefficient) )
+                    else:
+                        print("1")
+                        print("Output:", left_side_str, "=", right_side_str)
+
+                except Exception as e:
+                    print("Error evaluating right side:", e)
+
                 found = True
                 break  
 
