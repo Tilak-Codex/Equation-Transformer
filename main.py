@@ -1,8 +1,8 @@
 import re
 
 # Given equation and variable to solve for
-equation = "-apple = -4e - orange+5a-y+3"
-getting_input = "e"
+equation = "4y+4-2=x"
+getting_input = "x"
 
 print("Equation:", equation)
 print("Getting_input:", getting_input)
@@ -24,7 +24,6 @@ def spliting_equation(equation):
         
     return result
 
-
 def lhsRhs(lhs, rhs, variable):
     left_side = []
     right_side = []
@@ -38,30 +37,35 @@ def lhsRhs(lhs, rhs, variable):
     for term in lhs_terms:
         term = term.strip()
         if term and is_target_variable(term, variable):
-            left_side.append(term) 
+            left_side.append(term)
         else:
-           
             if term.startswith("-"):
-                right_side.append(term[1:])  
+                right_side.append(f"+{term[1:]}")
+            elif term.startswith("+"):
+                right_side.append(f"-{term[1:]}")
             else:
-                right_side.append(f"-{term}") 
+                right_side.append(f"-{term}")
 
     for term in rhs_terms:
         term = term.strip()
         if term and is_target_variable(term, variable):
             if term.startswith("-"):
-                left_side.append(term[1:]) 
+                left_side.append(f"+{term[1:]}")
+            elif term.startswith("+"):
+                left_side.append(f"-{term[1:]}")
             else:
-                left_side.append(f"-{term}") 
+                left_side.append(f"-{term}")
         else:
             if term.startswith("-") or term.startswith("+"):
-                right_side.append(term) 
+                right_side.append(term)
             else:
-                right_side.append(f"+{term}")  
-
+                right_side.append(f"+{term}")
+                
+    print("1LHS terms:", left_side) 
+    print("1RHS terms:", right_side)
+    
     return left_side, right_side
-
-
+    
 def is_num_without_signs(coefficient_part):
     if not coefficient_part:
         return False
@@ -75,11 +79,12 @@ def is_num_without_signs(coefficient_part):
 
     return True
 
-
 def is_target_variable(term, variable):
+    
     if term.endswith(variable):
         coefficient_part = term[:-len(variable)] 
         if coefficient_part == "" or coefficient_part in ["+", "-"] or is_num_without_signs(coefficient_part):
+            
             return True
 
     return False
@@ -87,6 +92,7 @@ def is_target_variable(term, variable):
 
 if '=' not in equation:
     print("Invalid equation")
+    
 else:
     lhs, rhs = equation.split("=")
     if not getting_input.isalpha():
@@ -112,7 +118,6 @@ else:
                     variable_part += char
             selected_list.append(variable_part)
 
-
         print("Elements:", elements)
         print("Selected_list:", selected_list)
 
@@ -120,8 +125,8 @@ else:
         for element in selected_list:
             if element == getting_input:
                 left_side, right_side = lhsRhs(lhs, rhs, getting_input)
-                left_side_str = " + ".join(left_side)
-                right_side_str = " ".join(right_side)  
+                left_side_str = "".join(left_side)
+                right_side_str = "".join(right_side)  
 
                 print("Output:", left_side_str, "=", right_side_str)
                 found = True
