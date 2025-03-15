@@ -1,6 +1,6 @@
 import re
 
-equation = 'apple = 4e-orange+5a+4'
+equation = 'apple = e-orange+5a+4'
 getting_input = "e"
 
 print("Equation:", equation)
@@ -149,10 +149,8 @@ else:
                 dividing = '/'
                 try:
                     if coefficient and coefficient != 0:
-                        print("2")
                         print("Output:", getting_input, "=", (right_side_str),dividing, int(coefficient) )
                     else:
-                        print("1")
                         print("Output:", left_side_str, "=", right_side_str)
 
                 except Exception as e:
