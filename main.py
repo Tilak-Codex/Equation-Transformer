@@ -1,7 +1,7 @@
 import re
 
-equation = 'apple = e-orange+5a+4'
-getting_input = "e"
+equation = 'apple = e+4orange+5a+4'
+getting_input = "orange"
 
 print("Equation:", equation)
 print("Getting_input:", getting_input)
@@ -147,10 +147,21 @@ else:
                 coefficient = left_side_constant(left_side_str)
                 print("Coefficient of variable:", coefficient)
                 dividing = '/'
+                
                 try:
+                    
                     if coefficient and coefficient != 0:
+                        print("1")
                         print("Output:", getting_input, "=", (right_side_str),dividing, int(coefficient) )
                     else:
+                        print("2")
+                        if left_side_str.startswith("-"):
+                            right_side_str = right_side_str.replace(" ","")
+                            right_side_str = right_side_str.replace("-","+")
+                            right_side_str = right_side_str.replace("+","-")
+                            left_side_str = left_side_str[1:]
+                        if left_side_str.startswith("+"):
+                            left_side_str = left_side_str[1:]
                         print("Output:", left_side_str, "=", right_side_str)
 
                 except Exception as e:
